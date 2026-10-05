@@ -19,6 +19,7 @@ function handleCheckIn(event) {
   greeting.textContent = `Welcome, ${attendeeName}! You are checked in with ${selectedTeam}.`;
 
   console.log(`${attendeeName} checked in with ${selectedTeam}.`);
+  checkInForm.reset();
 }
 
 checkInForm.addEventListener("submit", handleCheckIn);
