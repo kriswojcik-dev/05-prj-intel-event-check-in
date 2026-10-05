@@ -3,6 +3,7 @@ const attendeeCountElement = document.querySelector("#attendeeCount");
 const progressBar = document.querySelector("#progressBar");
 const greeting = document.querySelector("#greeting");
 const teamSelect = document.querySelector("#teamSelect");
+const attendeeList = document.querySelector("#attendeeList");
 const waterCountElement = document.querySelector("#waterCount");
 const zeroCountElement = document.querySelector("#zeroCount");
 const powerCountElement = document.querySelector("#powerCount");
@@ -11,17 +12,34 @@ const savedAttendeeCount = localStorage.getItem("attendeeCount");
 const savedWaterCount = localStorage.getItem("waterCount");
 const savedZeroCount = localStorage.getItem("zeroCount");
 const savedPowerCount = localStorage.getItem("powerCount");
+const savedAttendees = localStorage.getItem("attendees");
 let attendeeCount = savedAttendeeCount ? Number(savedAttendeeCount) : 0;
 const waterCount = savedWaterCount ? Number(savedWaterCount) : 0;
 const zeroCount = savedZeroCount ? Number(savedZeroCount) : 0;
 const powerCount = savedPowerCount ? Number(savedPowerCount) : 0;
+let attendees = savedAttendees ? JSON.parse(savedAttendees) : [];
 
 attendeeCountElement.textContent = attendeeCount;
 waterCountElement.textContent = waterCount;
 zeroCountElement.textContent = zeroCount;
 powerCountElement.textContent = powerCount;
-const initialProgressPercentage = (attendeeCount / maxGoal) * 100;
+const initialProgressPercentage = Math.min(
+  (attendeeCount / maxGoal) * 100,
+  100,
+);
 progressBar.style.width = `${initialProgressPercentage}%`;
+
+function displayAttendees() {
+  attendeeList.textContent = "";
+
+  for (let index = 0; index < attendees.length; index++) {
+    const attendeeItem = document.createElement("li");
+    attendeeItem.textContent = `${attendees[index].name} - ${attendees[index].team}`;
+    attendeeList.appendChild(attendeeItem);
+  }
+}
+
+displayAttendees();
 
 function handleCheckIn(event) {
   event.preventDefault();
@@ -34,15 +52,21 @@ function handleCheckIn(event) {
   const updatedTeamCount = teamCount + 1;
   teamCountElement.textContent = updatedTeamCount;
   localStorage.setItem(`${selectedTeam}Count`, updatedTeamCount);
+  attendees.push({ name: attendeeName, team: selectedTeamName });
+  localStorage.setItem("attendees", JSON.stringify(attendees));
+  displayAttendees();
   attendeeCount = attendeeCount + 1;
   attendeeCountElement.textContent = attendeeCount;
   localStorage.setItem("attendeeCount", attendeeCount);
 
-  const progressPercentage = (attendeeCount / maxGoal) * 100;
+ const progressPercentage = Math.min(
+  (attendeeCount / maxGoal) * 100,
+  100,
+);
   progressBar.style.width = `${progressPercentage}%`;
   greeting.textContent = `Welcome, ${attendeeName}! You are checked in with ${selectedTeamName}.`;
 
-  if (attendeeCount === maxGoal) {
+  if (attendeeCount >= maxGoal) {
     const waterCount = Number(
       document.querySelector("#waterCount").textContent,
     );

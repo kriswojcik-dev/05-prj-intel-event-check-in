@@ -25,7 +25,8 @@ body {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       rgba(0, 153, 219, 0.9) 0%,
       rgba(0, 104, 181, 0.9) 50%,
@@ -346,6 +347,35 @@ select {
   font-size: 15px;
   font-weight: 500;
   color: #475569;
+}
+
+.attendee-list {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.attendee-list h3 {
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+#attendeeList {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#attendeeList li {
+  padding: 12px 14px;
+  border-left: 4px solid #0071c5;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  color: #475569;
+  font-size: 15px;
 }
 
 /* Mobile responsive */
