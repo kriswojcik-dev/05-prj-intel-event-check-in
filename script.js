@@ -22,6 +22,29 @@ function handleCheckIn(event) {
   progressBar.style.width = `${progressPercentage}%`;
   greeting.textContent = `Welcome, ${attendeeName}! You are checked in with ${selectedTeamName}.`;
 
+  if (attendeeCount === maxGoal) {
+    const waterCount = Number(
+      document.querySelector("#waterCount").textContent,
+    );
+    const zeroCount = Number(document.querySelector("#zeroCount").textContent);
+    const powerCount = Number(
+      document.querySelector("#powerCount").textContent,
+    );
+    let winningTeamName = "Team Water Wise";
+    let winningTeamCount = waterCount;
+
+    if (zeroCount > winningTeamCount) {
+      winningTeamName = "Team Net Zero";
+      winningTeamCount = zeroCount;
+    }
+
+    if (powerCount > winningTeamCount) {
+      winningTeamName = "Team Renewables";
+    }
+
+    greeting.textContent = `Congratulations! Goal reached. ${winningTeamName} is the winning team!`;
+  }
+
   console.log(`${attendeeName} checked in with ${selectedTeamName}.`);
   checkInForm.reset();
 }
